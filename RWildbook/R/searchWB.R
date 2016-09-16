@@ -82,7 +82,14 @@ function(searchURL=NULL,
   }
   #Step 3. Get data from Wildbook framework with the search URL
   cat(searchURL)
+  
+  if(.Platform$OS.type=="windows"){
   tmpdata <- readLines(searchURL,warn=FALSE)
   data <- fromJSON(tmpdata)
-  #data <- fromJSON(url(searchURL))
+  }
+  else{
+    tmpfile <- tempfile()
+  download.file("http://xinxin:changeme@whaleshark.org/api/jdoql?SELECT FROM org.ecocean.Encounter WHERE individualID == 'A-001'",method="wget",destfile = tmpfile)
+    data <- fromJSON(readLines(tmpfile,warn=FALSE))
+  }
 }
