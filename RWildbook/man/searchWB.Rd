@@ -20,43 +20,87 @@ searchWB(searchURL = NULL, username = NULL, password = NULL, baseURL,
 
 \item{password}{The password in the Wildbook framework.}
 
-\item{baseURL}{The URL represent the wildbook data base.}
+\item{baseURL}{The base URL represent the Wildbook data base.}
 
 \item{jdoql}{The JDOQL string for data searching.}
 
-\item{object}{can be either "encounter" for the encounter search or "individual" for the individual search.}
+\item{object}{Either "encounter" for the encounter search or "individual" for
+the individual search.}
 
-\item{location}{A string of character contained in location names.}
+\item{location}{A character vector for filtering location names.}
 
 \item{locationID}{A character vector for filtering the locationID.}
 
-\item{sighting_date}{A character for filtering encounters which are sighted during a period of time.}
+\item{sighting_date}{A character vector for filtering encounters which are
+sighted during a period of time.}
 
-\item{encounter_submission_dates}{A character for filtering encounters which are submitted during a period of time.}
+\item{encounter_submission_dates}{A character vector for filtering encounters
+which are submitted during a period of time.}
 
-\item{date_format}{The format for all the arguments of date valule.}
+\item{date_format}{The format for all the arguments of date value.}
 
-\item{sex}{A character vector of maximum size of three represents the value for the sex filter.}
+\item{sex}{A character vector of maximum size three representing the values
+for the sex filter.}
 
-\item{status}{A character vector of maximum size of two represents the value for the encounter status.}
+\item{status}{A character vector of maximum sizetwo representing the values
+for the encounter status.}
 
-\item{measurement}{A numeric object sets the minimum individual measurement when searching in the Wildbook framework.}
+\item{measurement}{A numeric object sets the minimum individual measurement
+when searching in the Wildbook framework.}
 
-\item{individualID}{A character vector for searching data of specific individual ID.}
+\item{individualID}{A character vector for searching data of specific
+individual ID.}
 
-\item{encounterID}{A character vector for searching data of specific encounter ID.}
+\item{encounterID}{A character vector for searching data of specific
+encounter ID.}
 
-\item{encounter_type}{A character vector of maximum size of three for searching data with specific encounter type.}
+\item{encounter_type}{A character vector of maximum size of three for
+searching data with specific encounter type.}
 
-\item{Date_of_birth}{A character vector for searching data of individual which is borned during a period of time.}
+\item{Date_of_birth}{A character vector for searching data of individual
+which is born during a period of time.}
 
-\item{Date_of_death}{A character vector for searching data of individual which is dead during a period of time.}
+\item{Date_of_death}{A character vector for searching data of individual
+which died during a period of time.}
 }
 \description{
 This function allows users to pull data from the Wildbook framework in R.
 }
+\details{
+The \code{searchWB} function provides the main interface to the Wilbook
+framework and can be used in one of three ways. First, users may supply
+filters based on the variables within the database. These filters are
+combined in a single JDOQL statement which is then combined with the base
+URL, username, and password to create the URL search string for data
+extraction. Second, users may supply the JDOQL string, username and password,
+and base URL as separate arguments. Finally, users may supply the search URL
+directly.
+
+We envisage that most users will supply filters to create the search URL. The
+other options allow users to easily repeat or modify previous searches and
+enable advanced users familiar with the JDOQL API and internals of the
+Wildbook framework to conduct more complex searches.
+
+\strong{Filtering Locations}
+
+Locations may be filtered with either location names or location ids.
+Multiple location names and/or ids can be provided. In this case the search
+will return all objects (encounters or individuals) matching at least one of
+the locations.
+
+\strong{Filtering Dates}
+
+The \code{sighting_date} filter may be specified as a character vector of
+either one or two elements representing dates. If one date is provided then
+results will be filtered from 00:00:00 to 24:00:00 on that day. If two dates
+are provided then results will be filtered from 00:00:00 on the first date to
+24:00:00 on the second date. By default, dates must be entered using the
+"YYYY-MM-DD" format. Other formats may be used by specifying the value of
+\code{date_format}.
+}
 \examples{
-##same searches for users of different background.
+## The following examples conduct the same search using the complete searchURL, JDOQL, or variable filters.
+
 data1 <- searchWB(searchURL = "http://xinxin:changeme@whaleshark.org/api/jdoql?SELECT FROM org.ecocean.MarkedIndividual WHERE individualID == 'A-001'")
 
 data2 <- searchWB(username="xinxin",password="changeme",baseURL ="whaleshark.org",jdoql="SELECT FROM org.ecocean.Encounter WHERE catalogNumber != null &&  (( dateInMilliseconds >= -189388800000 )&&( dateInMilliseconds <= 1483228740000 ))&&(( dwcDateAddedLong >= 1041379200000 )&&( dwcDateAddedLong <= 1483228740000 ))&&(( individualID == 'a-001' )) ")
