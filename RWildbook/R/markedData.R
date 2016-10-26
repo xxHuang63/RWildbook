@@ -131,5 +131,4 @@ markedData<-
     varname <- paste0("V",1:length(start.dates))
     ch <- apply(mark.data[,varname,with=FALSE],1,paste0,collapse="")
     return(data.table(mark.data[,varlist,with=FALSE],ch))
-
   }
