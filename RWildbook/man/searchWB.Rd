@@ -62,7 +62,7 @@ encounter ID. Note that the encounter ID is case sensitive.}
 
 \item{encounter_type}{A character vector of maximum size of three for
 searching data with specific encounter type. It can be any combination
-of “unapproved�?, “approved �? and “unidentifiable�?.}
+of “unapproved???, “approved ??? and “unidentifiable???.}
 
 \item{Date_of_birth}{A character vector for searching data of individual
 which is born during a period of time.}
@@ -77,7 +77,7 @@ the search JDOQL, otherwise the function returns the search JDOQL.}
 URL, otherwise the function will not return the search URL.}
 }
 \description{
-This function allows users to pull data from the Wildbook framework in R.
+This function allows users to pull data from the Wildbook framework into R.
 }
 \details{
 The \code{searchWB} function provides the main interface to the Wilbook
@@ -92,7 +92,9 @@ directly.
 We envisage that most users will supply filters to create the search URL. The
 other options allow users to easily repeat or modify previous searches and
 enable advanced users familiar with the JDOQL API and internals of the
-Wildbook framework to conduct more complex searches.
+Wildbook framework to conduct more complex searches. More examples of extracting
+data from the Wildbook framework with the\code{searchWB} function can be found
+in the \code{rwildbook-demo-1} of the \code{RWildbook} package.
 
 \strong{Filtering Locations}
 

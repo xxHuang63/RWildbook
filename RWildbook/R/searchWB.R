@@ -1,6 +1,6 @@
 #' Pull data from the Wildbook framework.
 #'
-#' This function allows users to pull data from the Wildbook framework in R.
+#' This function allows users to pull data from the Wildbook framework into R.
 #'
 #' The \code{searchWB} function provides the main interface to the Wilbook
 #' framework and can be used in one of three ways. First, users may supply
@@ -14,7 +14,9 @@
 #' We envisage that most users will supply filters to create the search URL. The
 #' other options allow users to easily repeat or modify previous searches and
 #' enable advanced users familiar with the JDOQL API and internals of the
-#' Wildbook framework to conduct more complex searches.
+#' Wildbook framework to conduct more complex searches. More examples of extracting
+#' data from the Wildbook framework with the\code{searchWB} function can be found
+#' in the \code{rwildbook-demo-1} of the \code{RWildbook} package.
 #'
 #' \strong{Filtering Locations}
 #'
@@ -89,7 +91,7 @@
 #'
 #' @param encounter_type A character vector of maximum size of three for
 #'   searching data with specific encounter type. It can be any combination
-#'   of “unapproved�?, “approved �? and “unidentifiable�?.
+#'   of “unapproved???, “approved ??? and “unidentifiable???.
 #'
 #' @param Date_of_birth A character vector for searching data of individual
 #'   which is born during a period of time.
@@ -151,22 +153,18 @@ searchWB <-
       searchURL <- WBsearchURL(username,password,baseURL,jdoql)
     }
     #Step 3. Get data from Wildbook framework with the search URL
-
     if (.Platform$OS.type == "windows") {
       tmpdata <- readLines(searchURL,warn = FALSE)
       data <- fromJSON(tmpdata)
     }
     else{
       tmpfile <- tempfile()
-      download.file(
-        "http://xinxin:changeme@whaleshark.org/api/jdoql?SELECT FROM org.ecocean.Encounter WHERE individualID == 'A-001'",method =
-          "wget",destfile = tmpfile
-      )
+      download.file( searchURL ,method ="wget",destfile = tmpfile)
       data <- fromJSON(readLines(tmpfile,warn = FALSE))
     }
-    return(data)
+      return(data)
     #Step 4. (Options)Show the search URL/JDOQL
     if(showURL==TRUE) cat(searchURL)
     if(showJDOQL==TRUE) cat(jdoql)
-    
+
   }
